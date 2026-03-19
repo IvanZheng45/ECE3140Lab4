@@ -24,6 +24,7 @@ typedef struct lock_ {
  /*
   * YOU NEED TO PUT SOMETHING HERE
   */
+  int locked;
 } lock_t;
 
 /**
