@@ -4,7 +4,7 @@
  * attempt to acquire the same lock and toggle the red and green LEDs. The expected
  * behavior is that the tasks will acquire the lock one at a time, ensuring that the
  * LED toggling is not interleaved. This also checks the implementation of the blocking lock,
- * making sure that a blocked process is properly put to sleep and unblocked when the lock becomes available.
+ * making sure that multiple blocked processes are properly put to sleep and unblocked when the lock becomes available.
  */
 '''
 
