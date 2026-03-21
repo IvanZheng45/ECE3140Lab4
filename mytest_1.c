@@ -40,8 +40,8 @@ int main(void) {
     led_init();
     l_init(&resource_lock);
 
-    process_create(low_priority_holder, 10); 
-    process_create(high_priority_worker, 50); 
+    process_create(low_priority_holder, 20); 
+    process_create(high_priority_worker, 20); 
 
     process_start();
     while(1);
