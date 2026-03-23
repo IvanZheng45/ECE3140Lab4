@@ -102,8 +102,8 @@ unsigned int* process_select(unsigned int *cursp) {
 			current_process_p = dequeue(&process_queue);
 			if (current_process_p) {
 				return current_process_p->sp;
-        }
+			}
 		return NULL;
-	}
+		}
 	}
 }
