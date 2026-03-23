@@ -10,36 +10,42 @@
 #include "led.h"
 #include "lock.h"
 
-lock_t relay_lock;
-
+lock_t lock_a;
+lock_t lock_b;
 void task_red(void) {
-    l_lock(&relay_lock);
+    l_lock(&lock_a);
     for(int i=0; i<3; i++) {
         red_toggle_frdm();
         delay(500);
     }
+    l_lock(&lock_b);
     red_off_frdm();
-    l_unlock(&relay_lock);
+    l_unlock(&lock_a);
+    l_unlock(&lock_b);
 }
 
 void task_green(void) {
-    l_lock(&relay_lock);
+    l_lock(&lock_b);
     for(int i=0; i<3; i++) {
         green_toggle_frdm();
         delay(500);
     }
+    l_lock(&lock_a);
     green_off_frdm();
-    l_unlock(&relay_lock);
+    l_unlock(&lock_b);
+    l_unlock(&lock_a);
 }
 
 int main(void) {
     led_init();
-    l_init(&relay_lock);
+    l_init(&lock_a);
+    l_init(&lock_b);
 
+    blue_on();
     process_create(task_red, 20);
     process_create(task_green, 20);
-    process_create(task_red, 20); 
-
     process_start();
+    // should never be off
+    blue_on();
     while(1);
 }
