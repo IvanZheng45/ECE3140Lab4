@@ -18,7 +18,7 @@ void task_red(void) {
         red_toggle_frdm();
         delay(500);
     }
-    red_off();
+    red_off_frdm();
     l_unlock(&relay_lock);
 }
 
@@ -28,7 +28,7 @@ void task_green(void) {
         green_toggle_frdm();
         delay(500);
     }
-    green_off();
+    green_off_frdm();
     l_unlock(&relay_lock);
 }
 
