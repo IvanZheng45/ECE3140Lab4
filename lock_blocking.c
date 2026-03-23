@@ -22,11 +22,9 @@ void l_lock(lock_t *l) {
 
 void l_unlock(lock_t *l) {
 	__disable_irq();
+	l->locked = 0;
 
-	if (is_empty(&l->blocked_queue)) {
-		l->locked = 0;
-	} else {
-
+	while (!is_empty(&l->blocked_queue)) {
 		process_t *removed = dequeue(&l->blocked_queue);
 		removed->blocked = 0;
 		enqueue(removed, &process_queue);
