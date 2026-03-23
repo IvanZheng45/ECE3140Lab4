@@ -1,4 +1,3 @@
-'''
 /*
  * The difference between a spinning lock and a blocking lock should be obvious from the code. 
  * The spinning lock continuously checks if the lock is available, while the blocking lock puts 
@@ -8,8 +7,7 @@
  * With a spinning lock, the high priority worker will consume CPU cycles while waiting, 
  * but with a blocking lock, the high priority worker will be put to sleep until the low priority holder releases the lock,
  * making sure that the process_blocked() is used properly
-*/
-''' 
+*/ 
 
 #include "3140_concur.h"
 #include "led.h"
