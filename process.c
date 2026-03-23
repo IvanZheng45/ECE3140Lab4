@@ -98,12 +98,12 @@ unsigned int* process_select(unsigned int *cursp) {
 		return current_process_p->sp;
 	} else {
 		// No process was selected, exit the scheduler
-		while (total_blocked_processes > 0) {
+		while (total_blocked_processes) {
 			current_process_p = dequeue(&process_queue);
 			if (current_process_p) {
 				return current_process_p->sp;
 			}
-		return NULL;
 		}
+		return NULL;
 	}
 }
