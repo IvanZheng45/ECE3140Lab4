@@ -1,5 +1,7 @@
 #include "lock.h"
 
+extern volatile int total_blocked_processes;
+
 void l_init(lock_t* l) {
     l->locked = 0;
 }
@@ -12,6 +14,7 @@ void l_lock(lock_t* l) {
             __enable_irq();
             return;
         }
+        total_blocked_processes++;
         __enable_irq();
     }
 }
@@ -19,5 +22,6 @@ void l_lock(lock_t* l) {
 void l_unlock(lock_t* l) {
     __disable_irq();
     l->locked = 0;
+    total_blocked_processes--;
     __enable_irq();
 }

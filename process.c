@@ -27,6 +27,8 @@
 #include <stdlib.h>
 #include "3140_concur.h"
 
+volatile int total_blocked_processes = 0;
+
 static void process_free(process_t *proc) {
 	process_stack_free(proc->orig_sp, proc->n);
 	free(proc);
