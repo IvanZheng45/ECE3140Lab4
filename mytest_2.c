@@ -1,10 +1,13 @@
 /*
- * This test program creates multiple tasks that
- * attempt to acquire the same lock and toggle the red and green LEDs. The expected
- * behavior is that the tasks will acquire the lock one at a time, ensuring that the
- * LED toggling is not interleaved. This also checks the implementation of the blocking lock,
- * making sure that multiple blocked processes are properly put to sleep and unblocked when the lock becomes available.
- */
+ * This task attempts to test the two lock's response to deadlocking
+ * by allowing two tasks  to grab two different locks in 
+ * opposite orders. Task Red  holds Lock A and waits for B, 
+ * while Task Green holds Lock B and waits for A.
+ * We are checking if the blocking lock implementation and the spining
+ * implementation are both vulnerable to deadlocks and lets the proceses
+ * "hang" indefinitely. If the blue LED is off, then the processes are not hanging 
+ * and that means the processes exited early instead of hanging
+ *  */
 
 #include "3140_concur.h"
 #include "led.h"
@@ -46,6 +49,6 @@ int main(void) {
     process_create(task_green, 20);
     process_start();
     // should never be off
-    blue_on();
+    blue_off();
     while(1);
 }
