@@ -15,7 +15,6 @@
  * immediately and describe how you found it.
  */
 
-
 /************************************ NOTE *************************************
  *
  *  This is a reference solution so you can proceed with the lab even if you
@@ -24,7 +23,6 @@
  *  and build your own multi-processing system from scratch!
  *
  *******************************************************************************/
-
 
 #include <stdlib.h>
 #include "3140_concur.h"
@@ -35,23 +33,25 @@ static void process_free(process_t *proc) {
 }
 
 /* Starts up the concurrent execution */
-void process_start (void) {
+void process_start(void) {
 	SIM->SCGC6 |= SIM_SCGC6_PIT_MASK;
 	PIT->MCR = 0;
 	PIT->CHANNEL[0].LDVAL = 150000;
 	NVIC_EnableIRQ(PIT_IRQn);
 	// Don't enable the timer yet. The scheduler will do so itself
 
-	if(is_empty(&process_queue)) return;
+	if (is_empty(&process_queue))
+		return;
 	//bail out fast if no processes were ever created
 
 	process_begin();
 }
 
 /* Create a new process */
-int process_create (void (*f)(void), int n) {
+int process_create(void (*f)(void), int n) {
 	unsigned int *sp = process_stack_init(f, n);
-	if (!sp) return -2;
+	if (!sp)
+		return -2;
 
 	process_t *proc = (process_t*) malloc(sizeof(process_t));
 	if (!proc) {
@@ -63,21 +63,23 @@ int process_create (void (*f)(void), int n) {
 	proc->n = n;
 	proc->blocked = 0;
 
-	enqueue(proc,&process_queue);
+	enqueue(proc, &process_queue);
 
 	return 0;
 }
 
 /* Called by the runtime system to select another process.
-   "cursp" = the stack pointer for the currently running process
-*/
-unsigned int * process_select (unsigned int * cursp) {
+ "cursp" = the stack pointer for the currently running process
+ */
+unsigned int* process_select(unsigned int *cursp) {
 
 	if (cursp) {
 		//Suspending a process which has not yet finished
 		//Save state and enqueue it on the process queueu
 		current_process_p->sp = cursp;
-		enqueue(current_process_p,&process_queue);
+
+		if (!current_process_p->blocked)
+			enqueue(current_process_p, &process_queue);
 	} else {
 		//Check if a process was running
 		//Free its resources if it finished

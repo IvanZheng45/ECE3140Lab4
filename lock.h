@@ -25,6 +25,7 @@ typedef struct lock_ {
   * YOU NEED TO PUT SOMETHING HERE
   */
   int locked;
+  process_queue_t blocked_queue;
 } lock_t;
 
 /**
