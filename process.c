@@ -99,7 +99,6 @@ unsigned int* process_select(unsigned int *cursp) {
 	} else {
 		// No process was selected, exit the scheduler
 		while (total_blocked_processes) {
-			__enable_irq(); 
 
 			current_process_p = dequeue(&process_queue);
 			if (current_process_p) {
